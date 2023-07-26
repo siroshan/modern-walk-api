@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "fullName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@gmail.com",
+    "passwprd": "Abc123"
+  },
+  {
+    "id": 2,
+    "fullName": "Big",
+    "lastName": "Lebowski",
+    "email": "lebowski@gmail.com",
+    "passwprd": "Abc123"
+  },
+  {
+    "id": 3,
+    "fullName": "Alexander",
+    "lastName": "Doe",
+    "email": "alexander@gmail.com",
+    "passwprd": "Abc123"
+  }
+]
