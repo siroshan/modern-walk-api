@@ -4,9 +4,15 @@ import UserController from '../controllers/user.controller';
 const userRouter = express.Router();
 const usersController = new UserController();
 
-userRouter.post('/:id', (req: Request, res: Response) => {
-  const { id } = req.query;
-  const { status, data, message } = usersController.getUserById(+!id);
+userRouter.post('/', (req: Request, res: Response) => {
+  const { id, firstName, lastName, email, password } = req.body;
+  const { status, data, message } = usersController.createUser({
+    id,
+    firstName,
+    lastName,
+    email,
+    password,
+  });
   return res.status(status).send({ data, message });
 });
 
@@ -17,13 +23,13 @@ userRouter.get('/', (req: Request, res: Response) => {
 
 userRouter.get('/:id', (req: Request, res: Response) => {
   const { id } = req.query;
-  const { status, data, message } = usersController.getUserById(+!id);
+  const { status, data, message } = usersController.getUserById(String(id));
   return res.status(status).send({ data, message });
 });
 
 userRouter.delete('/:id', (req: Request, res: Response) => {
   const { id } = req.query;
-  const { status, data, message } = usersController.getUserById(+!id);
+  const { status, data, message } = usersController.getUserById(String(id));
   return res.status(status).send({ data, message });
 });
 

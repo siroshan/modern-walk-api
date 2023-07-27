@@ -1,6 +1,7 @@
 import { IApiResponse } from '../common/Response.interface';
 import { UserService } from '../services/users.service';
 import { IUser } from '../models/user.interface';
+import { v4 as uuidv4 } from 'uuid';
 
 export default class UserController {
   userService;
@@ -10,13 +11,19 @@ export default class UserController {
   }
 
   public createUser(user: IUser): IApiResponse<IUser> {
-    const users = this.userService.createUser(user);
-    const response = {
-      data: users,
-      status: 200,
-      message: 'Request Successful',
-    };
-    return response;
+    const isUserExists = this.userService.checkUserExists(user.email)
+    if(!isUserExists) {
+      const newUser = this.userService.createUser({...user, id: uuidv4()});
+      const response = {
+        data: newUser,
+        status: 200,
+        message: 'Request Successful',
+      };
+      return response;
+    }
+
+    return { status: 400, message: 'User already exist' }
+    
   }
 
   public getAllUsers(): IApiResponse<IUser[]> {
@@ -29,7 +36,7 @@ export default class UserController {
     return response;
   }
 
-  public getUserById(id: number): IApiResponse<IUser> {
+  public getUserById(id: string): IApiResponse<IUser> {
     const user = this.userService.getUserById(id);
     let response: IApiResponse<IUser>;
     if (user) {
@@ -48,7 +55,7 @@ export default class UserController {
     return response;
   }
 
-  public deleteUserById(id: number): IApiResponse<IUser> {
+  public deleteUserById(id: string): IApiResponse<IUser> {
     const user = this.userService.getUserById(id);
     let response: IApiResponse<IUser>;
     if (user) {

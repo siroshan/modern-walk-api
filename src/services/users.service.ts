@@ -3,29 +3,38 @@ import { IUser } from '../models/user.interface';
 
 export class UserService {
   createUser(user: IUser): IUser {
-    const newUser: IUser = {
-      ...user,
-    };
-    const users: IUser[] = fileReader('./src/mocks/users.json');
-    users.push(newUser);
-    fileWriter('./src/data/users.json', users);
-    return newUser;
+    try {
+      const newUser: IUser = {
+        ...user,
+      };
+      const users: IUser[] = fileReader('./src/mocks/users.json');
+      users.push(newUser);
+      fileWriter('./src/mocks/users.json', users);
+      return newUser;
+    } catch (err) {
+      throw err;
+    }
   }
 
   getAllUsers(): IUser[] {
     return fileReader('./src/mocks/users.json');
   }
 
-  getUserById(id: number): IUser | undefined {
+  getUserById(id: string): IUser | undefined {
     const users: IUser[] = fileReader('./src/mocks/users.json');
     return users.find((user) => user.id === id);
   }
 
-  deleteUserById(id: number): IUser {
+  deleteUserById(id: string): IUser {
     const users: IUser[] = fileReader('./src/mocks/users.json');
     const user = users.filter((user, i) => user.id === id);
     const updatedUsers = users.filter((user, i) => user.id !== id);
-    fileWriter('./src/data/users.json', updatedUsers);
+    fileWriter('./src/mocks/users.json', updatedUsers);
     return user[0];
+  }
+
+  checkUserExists(email: string): boolean {
+    const users: IUser[] = fileReader('./src/mocks/users.json');
+    return users.find((user) => user.email === email) ? true : false;
   }
 }
