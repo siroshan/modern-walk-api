@@ -27,12 +27,16 @@ export default class UserController {
 
   public getAllUsers(): IApiResponse<IUser[]> {
     const users = this.userService.getAllUsers();
-    const response = {
+
+    if (users.length === 0) {
+      return { status: 404, message: 'No users found' };
+    }
+
+    return {
       data: users,
       status: 200,
       message: 'Request Successful',
     };
-    return response;
   }
 
   public getUserById(id: string): IApiResponse<IUser> {

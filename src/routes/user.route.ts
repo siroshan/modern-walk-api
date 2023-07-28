@@ -21,13 +21,13 @@ userRouter.get('/', (req: Request, res: Response) => {
 });
 
 userRouter.get('/:id', (req: Request, res: Response) => {
-  const { id } = req.query;
+  const { id } = req.params;
   const { status, data, message } = usersController.getUserById(String(id));
   return res.status(status).send({ data, message });
 });
 
 userRouter.delete('/:id', (req: Request, res: Response) => {
-  const { id } = req.query;
+  const { id } = req.params;
   const { status, data, message } = usersController.getUserById(String(id));
   return res.status(status).send({ data, message });
 });
