@@ -5,9 +5,8 @@ const userRouter = express.Router();
 const usersController = new UserController();
 
 userRouter.post('/', (req: Request, res: Response) => {
-  const { id, firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   const { status, data, message } = usersController.createUser({
-    id,
     firstName,
     lastName,
     email,

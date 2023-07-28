@@ -10,10 +10,10 @@ export default class UserController {
     this.userService = new UserService();
   }
 
-  public createUser(user: IUser): IApiResponse<IUser> {
-    const isUserExists = this.userService.checkUserExists(user.email)
-    if(!isUserExists) {
-      const newUser = this.userService.createUser({...user, id: uuidv4()});
+  public createUser(user: Omit<IUser, 'id'>): IApiResponse<IUser> {
+    const isUserExists = this.userService.checkUserExists(user.email);
+    if (!isUserExists) {
+      const newUser = this.userService.createUser({ ...user, id: uuidv4() });
       const response = {
         data: newUser,
         status: 200,
@@ -22,8 +22,7 @@ export default class UserController {
       return response;
     }
 
-    return { status: 400, message: 'User already exist' }
-    
+    return { status: 400, message: 'User already exist' };
   }
 
   public getAllUsers(): IApiResponse<IUser[]> {
