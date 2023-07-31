@@ -1,16 +1,20 @@
+import { Get, Route, Post, Path, Body, Delete } from 'tsoa';
 import { IApiResponse } from '../common/Response.interface';
 import { ProductService } from '../services/product.service';
 import { IProduct } from '../models/product.interface';
 import { v4 as uuidv4 } from 'uuid';
 
+@Route('users')
 export default class ProductController {
   productService;
 
   constructor() {
     this.productService = new ProductService();
   }
-
-  public createProduct(product: Omit<IProduct, 'id'>): IApiResponse<IProduct> {
+  @Post()
+  public createProduct(
+    @Body() product: Omit<IProduct, 'id'>
+  ): IApiResponse<IProduct> {
     const newProduct = this.productService.createProduct({
       ...product,
       id: uuidv4(),
@@ -23,6 +27,7 @@ export default class ProductController {
     return response;
   }
 
+  @Get('/')
   public getAllProducts(): IApiResponse<IProduct[]> {
     const products = this.productService.getAllProducts();
     if (products.length === 0) {
@@ -39,7 +44,8 @@ export default class ProductController {
     };
   }
 
-  public getProductById(id: string): IApiResponse<IProduct> {
+  @Get('{id}')
+  public getProductById(@Path() id: string): IApiResponse<IProduct> {
     const product = this.productService.getProductById(id);
     let response: IApiResponse<IProduct>;
     if (product) {
@@ -58,7 +64,8 @@ export default class ProductController {
     return response;
   }
 
-  public deleteProductById(id: string): IApiResponse<IProduct> {
+  @Delete('{id}')
+  public deleteProductById(@Path() id: string): IApiResponse<IProduct> {
     const product = this.productService.getProductById(id);
     let response: IApiResponse<IProduct>;
     if (product) {
