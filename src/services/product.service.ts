@@ -21,8 +21,6 @@ export class ProductService {
   }
 
   getProductById(id: string): IProduct | undefined {
-    console.log('id', id);
-
     const products: IProduct[] = fileReader('./src/mocks/products.json');
     return products.find((product) => product.id === id);
   }

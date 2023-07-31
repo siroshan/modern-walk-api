@@ -21,8 +21,6 @@ export class CategoryService {
   }
 
   getCategoryById(id: string): ICategory | undefined {
-    console.log('id', id);
-
     const categorys: ICategory[] = fileReader('./src/mocks/categorys.json');
     return categorys.find((category) => category.id === id);
   }
