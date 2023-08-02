@@ -1,8 +1,10 @@
+import { Get, Route, Post, Path, Body, Delete } from 'tsoa';
 import { IApiResponse } from '../common/Response.interface';
 import { UserService } from '../services/users.service';
 import { IUser } from '../models/user.interface';
 import { v4 as uuidv4 } from 'uuid';
 
+@Route('/api/v1/users')
 export default class UserController {
   userService;
 
@@ -10,7 +12,8 @@ export default class UserController {
     this.userService = new UserService();
   }
 
-  public createUser(user: Omit<IUser, 'id'>): IApiResponse<IUser> {
+  @Post('/')
+  public createUser(@Body() user: Omit<IUser, 'id'>): IApiResponse<IUser> {
     const isUserExists = this.userService.checkUserExists(user.email);
     if (!isUserExists) {
       const newUser = this.userService.createUser({ ...user, id: uuidv4() });
@@ -25,6 +28,7 @@ export default class UserController {
     return { status: 400, message: 'User already exist' };
   }
 
+  @Get('/')
   public getAllUsers(): IApiResponse<IUser[]> {
     const users = this.userService.getAllUsers();
 
@@ -39,7 +43,8 @@ export default class UserController {
     };
   }
 
-  public getUserById(id: string): IApiResponse<IUser> {
+  @Get('{id}')
+  public getUserById(@Path() id: string): IApiResponse<IUser> {
     const user = this.userService.getUserById(id);
     let response: IApiResponse<IUser>;
     if (user) {
@@ -58,7 +63,8 @@ export default class UserController {
     return response;
   }
 
-  public deleteUserById(id: string): IApiResponse<IUser> {
+  @Delete('{id}')
+  public deleteUserById(@Path() id: string): IApiResponse<IUser> {
     const user = this.userService.getUserById(id);
     let response: IApiResponse<IUser>;
     if (user) {
