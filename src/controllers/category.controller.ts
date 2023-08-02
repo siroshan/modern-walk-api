@@ -1,8 +1,10 @@
+import { Get, Route, Post, Path, Body, Delete } from 'tsoa';
 import { IApiResponse } from '../common/Response.interface';
 import { CategoryService } from '../services/category.service';
 import { ICategory } from '../models/category.interface';
 import { v4 as uuidv4 } from 'uuid';
 
+@Route('/api/v1/categories')
 export default class CategoryController {
   categoryService;
 
@@ -10,8 +12,9 @@ export default class CategoryController {
     this.categoryService = new CategoryService();
   }
 
+  @Post('/')
   public createCategory(
-    category: Omit<ICategory, 'id'>
+    @Body() category: Omit<ICategory, 'id'>
   ): IApiResponse<ICategory> {
     const newCategory = this.categoryService.createCategory({
       ...category,
@@ -25,6 +28,7 @@ export default class CategoryController {
     return response;
   }
 
+  @Get('/')
   public getAllCategorys(): IApiResponse<ICategory[]> {
     const categorys = this.categoryService.getAllCategorys();
     if (categorys.length === 0) {
@@ -41,7 +45,8 @@ export default class CategoryController {
     };
   }
 
-  public getCategoryById(id: string): IApiResponse<ICategory> {
+  @Get('{id}')
+  public getCategoryById(@Path() id: string): IApiResponse<ICategory> {
     const category = this.categoryService.getCategoryById(id);
     let response: IApiResponse<ICategory>;
     if (category) {
@@ -60,7 +65,8 @@ export default class CategoryController {
     return response;
   }
 
-  public deleteCategoryById(id: string): IApiResponse<ICategory> {
+  @Delete('{id}')
+  public deleteCategoryById(@Path() id: string): IApiResponse<ICategory> {
     const category = this.categoryService.getCategoryById(id);
     let response: IApiResponse<ICategory>;
     if (category) {
