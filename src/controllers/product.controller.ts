@@ -4,14 +4,14 @@ import { ProductService } from '../services/product.service';
 import { IProduct } from '../models/product.interface';
 import { v4 as uuidv4 } from 'uuid';
 
-@Route('users')
+@Route('/api/v1/products')
 export default class ProductController {
   productService;
 
   constructor() {
     this.productService = new ProductService();
   }
-  @Post()
+  @Post('/')
   public createProduct(
     @Body() product: Omit<IProduct, 'id'>
   ): IApiResponse<IProduct> {
