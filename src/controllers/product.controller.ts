@@ -1,5 +1,5 @@
 import { Get, Route, Post, Path, Body, Delete } from 'tsoa';
-import { IApiResponse } from '../common/Response.interface';
+import { IApiResponse } from '../common/response.interface';
 import { ProductService } from '../services/product.service';
 import { IProduct } from '../models/product.interface';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,5 +1,5 @@
 import { Get, Route, Post, Path, Body, Delete } from 'tsoa';
-import { IApiResponse } from '../common/Response.interface';
+import { IApiResponse } from '../common/response.interface';
 import { CategoryService } from '../services/category.service';
 import { ICategory } from '../models/category.interface';
 import { v4 as uuidv4 } from 'uuid';
